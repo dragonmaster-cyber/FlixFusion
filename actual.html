@@ -1,4 +1,3 @@
-<!-- e203ce8e-api key -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -191,76 +190,61 @@
     <script>
         const apiKey = 'e203ce8e';
 
-        function getMovieDetails() {
-            const movieTitle = document.getElementById("movieTitle").value;
-            const url = `https://www.omdbapi.com/?t=${movieTitle}&apikey=${apiKey}`;
+function getMovieDetails() {
+    const movieTitle = document.getElementById("movieTitle").value;
+    const url = `https://www.omdbapi.com/?t=${encodeURIComponent(movieTitle)}&apikey=${apiKey}`;
 
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.Response === "True") {
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            if (data.Response === "True") {
+                // Redirect user to movie details page
+                window.location.href = `movieDetails.html?title=${encodeURIComponent(data.Title)}`;
+            } else {
+                alert("Movie not found!");
+            }
+        })
+        .catch(error => console.error("Error fetching movie details:", error));
+}
+
+function displayTrendingMovies() {
+    const trendingMoviesDiv = document.getElementById("trendingMovies");
+    const trendingMovies = [
+        "Inception", "The Dark Knight", "Titanic", "Avatar", "The Matrix",
+        "Drishyam", "Avengers", "Avengers: Endgame", "Captain America: Civil War",
+        "Captain America: The First Avenger", "Iron Man", "Iron Man 2", "Iron Man 3",
+        "Spider-Man: Homecoming", "Spider-Man: Far From Home", "Spider-Man: No Way Home",
+        "Doctor Strange", "Doctor Strange: Multiverse of Madness", "Golmaal 3", "Ready",
+        "Bodyguard", "Hero", "Heropanti", "Heropanti 2"
+    ];
+
+    trendingMovies.forEach(movieTitle => {
+        const url = `https://www.omdbapi.com/?t=${encodeURIComponent(movieTitle)}&apikey=${apiKey}`;
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                if (data.Response === "True" && data.Poster) {
+                    const imgElement = document.createElement("img");
+                    imgElement.src = data.Poster;
+                    imgElement.alt = data.Title;
+                    imgElement.classList.add("scrollimages");
+
+                    imgElement.onclick = function () {
                         window.location.href = `movieDetails.html?title=${encodeURIComponent(data.Title)}`;
-                    } else {
-                        alert("Movie not found!");
-                    }
-                })
-                .catch(error => console.error("Error fetching data:", error));
-        }
+                    };
 
-        function displayTrendingMovies() {
-            const trendingMoviesDiv = document.getElementById("trendingMovies");
-            const trendingMovies = [
-                "Inception",
-                "The Dark Knight",
-                "Titanic",
-                "Avatar",
-                "The Matrix",
-                "Drishyam",
-                "Avengers",
-                "Avengers:Endgame",
-                "Captain America:Civil War",
-                "Captain America:The First Avenger",
-                "Iron Man",
-                "Iron Man 2",
-                "Iron Man 3",
-                "Spider-Man:Homecoming",
-                "Spider-Man:Far from home",
-                "Spider-Man:No Way Home",
-                "Doctor Strange",
-                "Doctor Strange:Multiverse of Madness",
-                "Golmaal 3",
-                "Ready",
-                "Bodyguard",
-                "Hero",
-                "Heropanti",
-                "Heropanti 2"
-            ];
+                    trendingMoviesDiv.appendChild(imgElement);
+                }
+            })
+            .catch(error => console.error("Error fetching trending movies:", error));
+    });
+}
 
-            trendingMovies.forEach(movieTitle => {
-                const url = `https://www.omdbapi.com/?t=${movieTitle}&apikey=${apiKey}`;
+window.onload = function () {
+    displayTrendingMovies();
+};
 
-                fetch(url)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.Response === "True") {
-                            const imgElement = document.createElement("img");
-                            imgElement.src = data.Poster;
-                            imgElement.alt = data.Title;
-                            imgElement.classList.add("scrollimages");
-                            imgElement.onclick = function () {
-                                window.location.href = `movieDetails.html?title=${encodeURIComponent(data.Title)}`;
-                            };
-
-                            trendingMoviesDiv.appendChild(imgElement);
-                        }
-                    })
-                    .catch(error => console.error("Error fetching trending movies:", error));
-            });
-        }
-
-        window.onload = function () {
-            displayTrendingMovies();
-        }
     </script>
 
 
@@ -271,7 +255,7 @@
         </div>
         <div class="rights">
             <h1>Welcome to FlixFusion </h1>
-            <p>Join Prime to watch the latest movies, TV shows, and award-winning Amazon Originals. Stream with ease and
+            <p>Join FlixFusion to watch the latest movies, TV shows, and award-winning Originals. Stream with ease and
                 discover something new today!</p>
             <button class="buttons">Join Now</button>
         </div>
@@ -337,7 +321,7 @@
             </div>
             <div class="contentrighta">
                 <div class="imagecontainera">
-                    <img src="easy.jpg" alt="">
+                    <img src="Screenshot 2025-02-02 101601.png" alt="">
                 </div>
             </div>
         </div>
@@ -437,12 +421,21 @@
 
         </div>
     </div>
-
-   
+    <p>FlixFusion offers several subscription plans, including Basic, Standard, and Premium, with prices varying
+        by region and features. Visit the FlixFusion website for the latest pricing details.</p>
+    </div>
+    </div>
 
     <div class="faq-container">
-      
-        
+        <h2 class="freq">Frequently Asked Questions</h2>
+
+        <div class="faq">
+            <button class="faq-question">What is FlixFusion?</button>
+            <div class="faq-answer">
+                <p>FlixFusion is a streaming service that offers a wide variety of award-winning TV shows, movies,
+                    anime, documentaries, and more on thousands of internet-connected devices.</p>
+            </div>
+        </div>
 
         <div class="faq-container">
             <h2 class="freq">Frequently Asked Questions</h2>
